@@ -6,10 +6,10 @@ yarn-error.log*
 lerna-debug.log*
 
 # Dependency directories
-server/node_modules/
+node_modules/
 
 # dotenv environment variables file
-server/.env
+.env
 
 
 
