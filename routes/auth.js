@@ -6,34 +6,27 @@ const User=require('../models/user');
 
 
 
-router.get("/secret",function(req,res){
-    if(req.isAuthenticated()){
-    res.send("hello you are safe");
-    }else{
-        res.status(400);
-        res.redirect("/login");
-    }
-});
-
-router.get("/register",function(req,res){
-    res.send("register page");
-});
-
-router.get("/login",function(req,res){
-    res.send("login page");
-});
-
 router.post("/register",function(req,res){
-    const user=new User({username:req.body.username,email:req.body.email});
+    const {name,email,password}=req.body;
+    if(!name || !email || !password){
+        console.log(name);
+        console.log(email);
+        console.log(password);
+        return res.status(422).json({error:"please add all the fields"})
+    }else{
+    const user=new User({username:req.body.name,email:req.body.email});
     User.register(user,req.body.password,function(err,user){
         if(err){
             console.log(err);
             res.redirect("/register");
         }
+        console.log(user);
+        res.json({message:"saved successfully"})
             passport.authenticate("local")(req,res,function(){
-                res.redirect("/secret");
+                res.redirect("/login");
             })
     })
+}
 })
 
 router.post('/login', passport.authenticate('local'), function(req, res) {
