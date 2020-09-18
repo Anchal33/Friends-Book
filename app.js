@@ -5,6 +5,7 @@ const mongoose=require('mongoose');
 const session=require('express-session');
 const passport=require('passport');
 const bodyParser=require('body-parser');
+const LocalStrategy=require('passport-local').Strategy;
 const User=require('./models/user');
 
 
@@ -24,9 +25,30 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.urlencoded({extended : false}));
-passport.use(User.createStrategy());
-passport.serializeUser(User.serializeUser())
-passport.deserializeUser(User.deserializeUser())
+passport.use(new LocalStrategy(
+	{
+		usernameField: 'email',
+        passwordField: 'password'
+	},
+	function(email, password, done) {
+        User.findOne({ email: email }).then(function(user) {
+            if (!user || !user.authenticate(password)) {
+                return done(null, false, { message: 'Incorrect email or password.' });
+            }
+
+            done(null, user);
+        });
+    })
+);
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
 
 
 app.use(require("./routes/auth"));

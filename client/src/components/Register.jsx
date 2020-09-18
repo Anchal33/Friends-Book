@@ -1,13 +1,17 @@
 import React,{useState} from "react";
-import {Link} from "react-router-dom";
+import {Link,useHistory} from "react-router-dom";
 import M from "materialize-css";
 
 function Register(){
    const [name,setName]=useState("");
    const [email,setEmail]=useState("");
    const [password,setPassword]=useState("");
-
+   const history=useHistory();
    function postData(){
+      if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
+         M.toast({html:"invalid email",classes:"red darken-3"});
+         return;
+      }
     fetch("/register",{
        method:"post",
        headers:{
@@ -17,7 +21,10 @@ function Register(){
     }).then(res => res.json())
     .then(data => {
        if(data.error){M.toast({html:data.error,classes:"red darken-3"})}
-       else{M.toast({html:data.message,classes:"green lighten-1"})}
+       else{
+          M.toast({html:data.message,classes:"green darken-1"});
+          history.push("/login");
+      }
     });
    }
     return (
@@ -30,12 +37,14 @@ function Register(){
     name="name"
     placeholder="name"
     value={name}
+    autoComplete="off"
     onChange={(e)=>setName(e.target.value)}
     />
    <input
     type="email"
     name="email"
     placeholder="email"
+    autoComplete="off"
     value={email}
     onChange={(e)=>setEmail(e.target.value)}
     />
