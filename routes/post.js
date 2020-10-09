@@ -16,13 +16,13 @@ Post.find().populate("postedBy","_id username").exec(function(err,posts){
 });
 
 router.post("/createpost",passport.checkAuthentication,function(req,res){
-    const {title,body}=req.body;
-    if(!title || !body){
+    const {caption,pic}=req.body;
+    if(!caption || !pic){
         return res.status(422).json({error:"add all fields"})
     }
     const post=new Post({
-        title:req.body.title,
-        body:req.body.body,
+        caption,
+       photo:pic,
         postedBy:req.user
     });
     post.save(function(err,result){

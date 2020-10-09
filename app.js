@@ -6,12 +6,13 @@ const session=require('express-session');
 const passport=require('passport');
 const bodyParser=require('body-parser');
 const LocalStrategy=require('passport-local').Strategy;
+const bcrypt=require('bcryptjs');
 const User=require('./models/user');
 
 
 passport.checkAuthentication= function(req, res, next) {
     if (req.isAuthenticated()) return next();
-    else res.redirect('/login')
+    else res.json({error:"you must be logged in"})
 }
 
 app.use(express.json());
@@ -30,16 +31,23 @@ passport.use(new LocalStrategy(
 		usernameField: 'email',
         passwordField: 'password'
 	},
-	function(email, password, done) {
-        User.findOne({ email: email }).then(function(user) {
-            if (!user || !user.authenticate(password)) {
-                return done(null, false, { message: 'Incorrect email or password.' });
-            }
-
-            done(null, user);
-        });
-    })
-);
+	function(username, password, done) {
+    User.findOne({ email: username }, function(err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false);
+      }
+     bcrypt.compare(password,user.password,function(err,result){
+       if(err){throw err;}
+       if(result===true){
+         return done(null,user)
+       }else{
+         return done(null,false)
+       }
+     })
+    });
+  }
+));
 passport.serializeUser(function(user, done) {
   done(null, user.id);
 });

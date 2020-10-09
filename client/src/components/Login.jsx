@@ -1,16 +1,15 @@
-import React,{useState} from "react";
+import React,{useState,useContext} from "react";
 import {Link,useHistory} from "react-router-dom";
 import M from "materialize-css"
+import {UserContext} from "./App";
 
 function Login(){
+
+  const {state,dispatch}=useContext(UserContext); 
   const [email,setEmail]=useState("");
   const [password,setPassword]=useState("");
   const history=useHistory();
   function postData(){
-    if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
-      M.toast({html:"invalid email",classes:"red darken-3"});
-      return;
-   }
  fetch("/login",{
     method:"post",
     headers:{
@@ -21,6 +20,8 @@ function Login(){
  .then(data => {
     if(data.error){M.toast({html:data.error,classes:"red darken-3"})}
     else{
+       localStorage.setItem("user",JSON.stringify(data.user));
+       dispatch({type:"USER",payload:data.user});
        M.toast({html:data.message,classes:"green darken-1"});
        history.push("/");
    }
@@ -35,6 +36,7 @@ function Login(){
     placeholder="email"
     name="email"
     value={email}
+    autoComplete="off"
     onChange={(e)=>setEmail(e.target.value)}
     required
     />
