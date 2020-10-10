@@ -64,6 +64,7 @@ a{
     max-width: 500px;
     height: max-content;
     margin: 5px auto;
+    margin-bottom: 60px;
 }
 .card-title{
     padding: 3px;
@@ -75,9 +76,7 @@ a{
 .card-content h6{
     margin:5px auto;
 }
-.home-card .material-icons{
-    color: red;
-}
+
 .create-card{
     max-width: 500px;
     margin: 30px auto;
@@ -91,3 +90,4 @@ a{
     left: auto !important;
     width: auto;
 }
+

@@ -66,7 +66,7 @@ app.use(require("./routes/auth"));
 app.use(require("./routes/post"))
 
 
-mongoose.connect(process.env.MONGODB_URL,{ useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGODB_URL,{ useNewUrlParser: true, useUnifiedTopology: true,useFindAndModify:false });
 mongoose.set("useCreateIndex",true);
 mongoose.connection.on("connected",()=>console.log("mongodb connected"));
 mongoose.connection.on("error",(err)=>console.log(err));
