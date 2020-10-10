@@ -12,7 +12,10 @@ const User=require('./models/user');
 
 passport.checkAuthentication= function(req, res, next) {
     if (req.isAuthenticated()) return next();
-    else res.json({error:"you must be logged in"})
+    else {
+      localStorage.clear();
+      res.json({error:"you must be logged in"})
+}
 }
 
 app.use(express.json());
@@ -71,5 +74,5 @@ mongoose.connection.on("error",(err)=>console.log(err));
 
 app.listen(process.env.PORT || 5000,()=>{
     console.log("Server is running");
-})
+});
 

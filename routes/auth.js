@@ -55,6 +55,7 @@ router.post('/login', function(req, res, next) {
       return;
      }
       else{
+        user.password=undefined;
        res.json({message:"success",user});
       }
     });

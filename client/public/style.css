@@ -8,6 +8,10 @@ a{
 .nav-wrapper ul li a{
     font-size: 1.2rem !important;
 }
+.nav-wrapper ul li button{
+    margin-right: 4px;
+    font-size: 1.1rem;
+}
 .brand-logo,h2{
     font-family: 'Grand Hotel';
 }

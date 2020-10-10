@@ -12,20 +12,21 @@ export const UserContext=createContext();
 function Routing(){
   const history=useHistory();
   const {state,dispatch}=useContext(UserContext);
-  useEffect(()=>{
-   const user=JSON.parse(localStorage.getItem("user"));
-   if(user){
-     dispatch({type:"USER",payload:user})
-     history.push("/");
-   }
-   else{
-     history.push("/login");
-   }
-  },[])
+  const checkUser=()=>{
+    const user=JSON.parse(localStorage.getItem("user"));
+    dispatch({type:"USER",payload:user});
+    
+    if(!user){
+      history.push("/login");
+    }
+   };
+
+  useEffect(checkUser,[])
   return(
+    
     <Switch>
      <Route exact path="/">
-     <Home />
+     {state? <Home />:<Login />}
      </Route>
      <Route path="/register">
     <Register />

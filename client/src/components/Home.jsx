@@ -1,45 +1,38 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
+import { useHistory } from "react-router-dom";
 
 
 function Home(){
+    const history=useHistory()
+    const [data,setData]=useState([]);
+    useEffect(()=>{
+     fetch('/posts')
+     .then(res=>res.json())
+     .then(result=>{
+         
+         setData(result.reverse())}
+         )
+     .catch(err=>{
+         history.push("/");
+     })
+    },[])
+
  return (
     <div className="home">
-        <div className="card home-card">
-    <div className="card-title"><h5>Jefferey</h5></div>
-    <div className="card-image"><img src="https://images.unsplash.com/photo-1593104547489-5cfb3839a3b5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="img"/></div>
+      {
+          data.map(item=>{
+              return(
+    <div className="card home-card" key={item._id}>
+    <div className="card-title"><h5>{item.postedBy.name}</h5></div>
+    <div className="card-image"><img src={item.photo} alt="img"/></div>
     <div className="card-content input-field">
     <i className="material-icons">favorite</i>
-        <h6>Beauty lies in the eyes of beholder</h6>
+        <h6>{item.caption}</h6>
         <input type="text" placeholder="Add a comment"/>
     </div>
-    </div>
-    <div className="card home-card">
-    <div className="card-title"><h5>Albert</h5></div>
-    <div className="card-image"><img src="https://images.unsplash.com/photo-1490723286627-4b66e6b2882a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="img"/></div>
-    <div className="card-content input-field">
-    <i className="material-icons">favorite</i>
-        <h6>Beauty lies in the eyes of beholder</h6>
-        <input type="text" placeholder="Add a comment"/>
-    </div>
-    </div>
-    <div className="card home-card">
-    <div className="card-title"><h5>Jefferey</h5></div>
-    <div className="card-image"><img src="https://images.unsplash.com/photo-1593104547489-5cfb3839a3b5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="img"/></div>
-    <div className="card-content input-field">
-    <i className="material-icons">favorite</i>
-        <h6>Beauty lies in the eyes of beholder</h6>
-        <input type="text" placeholder="Add a comment"/>
-    </div>
-    </div>
-    <div className="card home-card">
-    <div className="card-title"><h5>Jefferey</h5></div>
-    <div className="card-image"><img src="https://images.unsplash.com/photo-1490723286627-4b66e6b2882a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="img"/></div>
-    <div className="card-content input-field">
-    <i className="material-icons">favorite</i>
-        <h6>Beauty lies in the eyes of beholder</h6>
-        <input type="text" placeholder="Add a comment"/>
-    </div>
-    </div>
+    </div>)
+          })
+      }
     </div>
     )
 }
