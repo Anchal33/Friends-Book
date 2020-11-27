@@ -13,7 +13,6 @@ const User=require('./models/user');
 passport.checkAuthentication= function(req, res, next) {
     if (req.isAuthenticated()) return next();
     else {
-      localStorage.clear();
       res.json({error:"you must be logged in"})
 }
 }
@@ -24,7 +23,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }))
-
+app.use(express.static(__dirname + '/public'));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -63,7 +62,8 @@ passport.deserializeUser(function(id, done) {
 
 
 app.use(require("./routes/auth"));
-app.use(require("./routes/post"))
+app.use(require("./routes/post"));
+app.use(require("./routes/user"));
 
 
 mongoose.connect(process.env.MONGODB_URL,{ useNewUrlParser: true, useUnifiedTopology: true,useFindAndModify:false });

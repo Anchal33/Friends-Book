@@ -10,8 +10,9 @@ function Navbar(){
       return [<li><Link to="/profile">Profile</Link></li>,
       <li><Link to="/createpost">Create Post</Link></li>,
     <li> <button onClick={()=>{
-      localStorage.clear()
-      dispatch({type:"CLEAR"})
+      fetch('/logout')
+      localStorage.clear();
+      dispatch({type:"CLEAR"});
       history.push("/");
     }} className="btn red darken-3">Logout</button></li>]
      }

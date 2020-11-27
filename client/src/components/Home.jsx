@@ -1,5 +1,5 @@
 import React,{useState,useEffect,useContext} from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {UserContext} from "./App"
 
 function Home(){
@@ -77,13 +77,29 @@ function Home(){
               setData(newData);
           }).catch(err=>{console.log(err);})
   }
+  function deletePost(id){
+    fetch(`/delete/${id}`,{
+      method:"delete"
+    }).then(res=>res.json())
+      .then(result=>{
+        const newData=data.filter(item=>{
+          return item._id !==result._id;
+        });
+        setData(newData);
+      });
+  }
+
  return (
     <div className="home">
       {
           data.map(item=>{
               return(
     <div className="card home-card" key={item._id}>
-    <div className="card-title"><h5>{item.postedBy.name}</h5></div>
+    <div className="card-title"><h5><Link to={item.postedBy._id != state._id ?"/profile/"+item.postedBy._id:"/profile"}>{item.postedBy.name}</Link>
+    { item.postedBy._id == state._id && 
+    <i className="material-icons" style={{cursor:"pointer",float:"right"}} onClick={()=>deletePost(item._id)}>delete</i>
+    }
+    </h5></div>
     <div className="card-image"><img src={item.photo} alt="img"/></div>
     <div className="card-content input-field">
      {item.likedBy.includes(state._id)?

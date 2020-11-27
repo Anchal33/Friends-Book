@@ -5,6 +5,7 @@ import Home from "./Home";
 import Login from "./Login";
 import Register from "./Register";
 import Profile from "./Profile";
+import UserProfile from "./UserProfile";
 import Createpost from "./Createpost";
 import {initialState,userReducer} from "../reducers/userReducer";
 export const UserContext=createContext();
@@ -12,16 +13,18 @@ export const UserContext=createContext();
 function Routing(){
   const history=useHistory();
   const {state,dispatch}=useContext(UserContext);
-  const checkUser=()=>{
-    const user=JSON.parse(localStorage.getItem("user"));
-    dispatch({type:"USER",payload:user});
+  
+  useEffect(()=>{
+         async function checkUser(){
+          const user=await JSON.parse(localStorage.getItem("user"));
+            await dispatch({type:"USER",payload:user});
+            if(!user){
+       history.push("/login");
+            }
+         }
+         checkUser();
+    },[]);
     
-    if(!user){
-      history.push("/login");
-    }
-   };
-
-  useEffect(checkUser,[])
   return(
     
     <Switch>
@@ -34,11 +37,14 @@ function Routing(){
     <Route path="/login">
     <Login />
     </Route>
-    <Route path="/profile">
+    <Route exact path="/profile">
     <Profile />
     </Route>
     <Route path="/createpost">
     <Createpost />
+    </Route>
+    <Route path="/profile/:id">
+    <UserProfile />
     </Route>
     </Switch>
   )
