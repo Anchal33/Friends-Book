@@ -23,14 +23,14 @@ function Login(){
        localStorage.setItem("user",JSON.stringify(data.user));
        dispatch({type:"USER",payload:data.user});
        M.toast({html:data.message,classes:"green darken-1"});
-       history.push("/");
+       history.push("/explore");
    }
  });
   }
  return (
  <div className="myCard">
 <div className="card auth-card input-field">
-     <h2>Instagram</h2>
+     <h2>Friends Book</h2>
    <input
     type="email"
     placeholder="email"

@@ -15,5 +15,11 @@ export const userReducer=(state,action)=>{
           following:action.payload.following
         }
       }
+      if(action.type==="UPLOADPIC"){
+        return {
+          ...state,
+          pic:action.payload
+        }
+      }
       return state;
 }

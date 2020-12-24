@@ -8,6 +8,7 @@ import Profile from "./Profile";
 import UserProfile from "./UserProfile";
 import Createpost from "./Createpost";
 import {initialState,userReducer} from "../reducers/userReducer";
+import Explore from './Explore';
 export const UserContext=createContext();
 
 function Routing(){
@@ -45,6 +46,9 @@ function Routing(){
     </Route>
     <Route path="/profile/:id">
     <UserProfile />
+    </Route>
+    <Route path="/explore">
+    <Explore />
     </Route>
     </Switch>
   )

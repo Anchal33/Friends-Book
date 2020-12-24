@@ -5,6 +5,10 @@ a{
     margin: 0 10px;
     padding: 0 5px;
 }
+.card-title a{
+    margin: 0 2px;
+    padding: 0;
+}
 .nav-wrapper ul li a{
     font-size: 1.2rem !important;
 }

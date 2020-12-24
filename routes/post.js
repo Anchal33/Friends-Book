@@ -5,8 +5,8 @@ const passport=require('passport');
 const Post=require("../models/post")
 
 
-router.get("/posts",passport.checkAuthentication,function(req,res){
-Post.find().populate("postedBy","_id name").populate("comments.postedBy","_id name").exec(function(err,posts){
+router.get("/explore",passport.checkAuthentication,function(req,res){
+Post.find().populate("postedBy","_id name pic").populate("comments.postedBy","_id name").exec(function(err,posts){
     if(err){
         res.json({error:err})
     }else{
@@ -14,6 +14,16 @@ Post.find().populate("postedBy","_id name").populate("comments.postedBy","_id na
     }
 })
 });
+
+router.get("/posts",passport.checkAuthentication,function(req,res){
+    Post.find({postedBy :{$in:[...req.user.following,req.user._id]}}).populate("postedBy","_id name pic").populate("comments.postedBy","_id name").exec(function(err,posts){
+        if(err){
+            res.json({error:err})
+        }else{
+      res.json(posts);
+        }
+    })
+    });
 
 router.post("/createpost",passport.checkAuthentication,function(req,res){
     const {caption,pic}=req.body;

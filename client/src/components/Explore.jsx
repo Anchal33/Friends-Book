@@ -2,14 +2,15 @@ import React,{useState,useEffect,useContext} from "react";
 import { Link, useHistory } from "react-router-dom";
 import {UserContext} from "./App"
 
-function Home(){
+function Explore(){
     const history=useHistory()
     const [data,setData]=useState([]);
     const {state,dispatch}=useContext(UserContext);
     useEffect(()=>{
-     fetch('/posts')
+     fetch('/explore')
      .then(res=>res.json())
      .then(result=>{
+         
          setData(result.reverse())}
          )
      .catch(err=>{
@@ -90,7 +91,7 @@ function Home(){
 
  return (
     <div className="home">
-      { 
+      {
           data.map(item=>{
               return(
     <div className="card home-card" key={item._id}>
@@ -132,4 +133,4 @@ function Home(){
     )
 }
 
-export default Home;
+export default Explore;

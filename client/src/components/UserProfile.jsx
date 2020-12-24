@@ -64,7 +64,7 @@ function Profile(){
  <div style={{maxWidth:"550px",margin:"0px auto"}}>
      <div className="profile">
      <div>
-         <img className="profile-img" src="https://images.unsplash.com/photo-1575632312417-71da8ed4992d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="profileimage"/>
+         <img className="profile-img" src={userProfile.user.pic} alt="profileimage"/>
      </div>
      <div className="profile-content">
      <h4>{userProfile.user.name}</h4>

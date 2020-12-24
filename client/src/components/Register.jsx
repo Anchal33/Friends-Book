@@ -30,7 +30,7 @@ function Register(){
     return (
  <div className="myCard">
 <div className="card auth-card input-field">
-     <h2>Instagram</h2>
+     <h2>Friends Book</h2>
      
      <input
     type="text"
